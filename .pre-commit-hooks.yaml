@@ -1,7 +1,10 @@
 ---
 - id: generate-pipeline
-  name: Generates GitLab Pipeline YAML files
+  name: Generate GitLab Pipeline YAML files
   description: Generates GitLab Pipeline YAML files
   entry: generate-pipeline.sh
   language: script
-  files: \.gitlab\/ci\/.*\.ya?ml\.j2$
+  # We need to take environments.yml here as well, due to how pre-commit works
+  # It creates a separate folder to work in and we need environments.yml as a
+  # source for the template generation in this temp folder
+  files: (environments\.yml|\.gitlab\/ci\/.*\.ya?ml\.j2)$
