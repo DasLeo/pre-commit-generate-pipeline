@@ -17,6 +17,7 @@ fi
 
 # Replace dotted collections in environments.yml as Jinja2 cannot read
 # variables starting with a dot
+cp environments.yml{,.bak}
 $SED_BINARY -i -r 's/\.(otc|gcp):$/\1:/g' environments.yml
 
 for file in "$@"; do
@@ -53,5 +54,8 @@ for file in "$@"; do
     DIFF_ERROR=1
   fi
 done
+
+# Revert environments.yml back
+mv environments.yml{.bak,}
 
 exit ${DIFF_ERROR}
