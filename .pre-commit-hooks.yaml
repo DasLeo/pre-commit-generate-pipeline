@@ -8,3 +8,5 @@
   # It creates a separate folder to work in and we need environments.yml as a
   # source for the template generation in this temp folder
   files: (environments\.yml|\.gitlab\/ci\/.*\.ya?ml\.j2)$
+  # Possible workaround if only environments.yaml changed
+  always_run: true
