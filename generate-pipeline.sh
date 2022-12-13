@@ -5,6 +5,9 @@ set -eo pipefail
 # shellcheck disable=SC2155 # No way to assign to readonly variable in separate lines
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 
+# Looking for template files
+TEMPLATES=$(find $SCRIPT_DIR -type f -name *.j2)
+
 # Store and return last failure so this can validate every directory passed before exiting
 DIFF_ERROR=0
 
@@ -20,10 +23,7 @@ fi
 cp environments.yml{,.bak}
 $SED_BINARY -i -r 's/\.(otc|gcp):$/\1:/g' environments.yml
 
-for file in "$@"; do
-  # skip environments.yml as it's only used for data source
-  if [ "$file" == "environments.yml" ]; then continue; fi
-
+for file in "$TEMPLATES"; do
   generated_pipeline=$(j2 "$file" "environments.yml")
   if [ $? -ne 0 ]; then
     echo "ERROR: generating pipeline YAML for '$file'. Check log output"
