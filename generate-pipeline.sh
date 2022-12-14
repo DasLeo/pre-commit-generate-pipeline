@@ -23,7 +23,7 @@ fi
 cp environments.yml{,.bak}
 $SED_BINARY -i -r 's/\.(otc|gcp):$/\1:/g' environments.yml
 
-for file in "$TEMPLATES"; do
+for file in $TEMPLATES; do
   generated_pipeline=$(j2 "$file" "environments.yml")
   if [ $? -ne 0 ]; then
     echo "ERROR: generating pipeline YAML for '$file'. Check log output"
