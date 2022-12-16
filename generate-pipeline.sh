@@ -4,9 +4,10 @@ set -eo pipefail
 # globals variables
 # shellcheck disable=SC2155 # No way to assign to readonly variable in separate lines
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+readonly GITLABCI_DIR=".gitlab/ci/"
 
 # Looking for template files
-TEMPLATES=$(find $SCRIPT_DIR -type f -name *.j2)
+TEMPLATES=$(find $GITLABCI_DIR -type f -name *.j2)
 
 # Store and return last failure so this can validate every directory passed before exiting
 DIFF_ERROR=0
